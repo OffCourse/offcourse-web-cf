@@ -1,0 +1,51 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "Stage": {
+            "Type": "String",
+        }
+    },
+    "Resources": {
+        "FrontendBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": { "Fn::Join" :
+            [ "", [ "offcourse-frontend-", {"Ref" : "Stage" } ] ]
+        },
+                "AccessControl": "PublicRead",
+                "WebsiteConfiguration": {
+                    "IndexDocument": "index.html",
+                    "ErrorDocument": "index.html"
+                },
+                "CorsConfiguration": {
+                    "CorsRules": [
+                        {
+                            "AllowedOrigins": [
+                                "*"
+                            ],
+                            "AllowedMethods": [
+                                "GET",
+                                "POST"
+                            ],
+                            "AllowedHeaders": [
+                                "*"
+                            ],
+                            "MaxAge": 3000
+                        }
+                    ]
+                },
+                "VersioningConfiguration": {
+                    "Status": "Enabled"
+                }
+            }
+        },
+    },
+    "Outputs": {
+        "FrontendBucket": {
+            "Description": "Name of the frontend bucket",
+            "Value": {
+                "Ref": "FrontendBucket"
+            }
+        }
+    }
+}
