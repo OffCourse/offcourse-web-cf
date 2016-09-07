@@ -46,6 +46,63 @@
                     "Status": "Enabled"
                 }
             }
+        },
+        "CloudfrontDistribution": {
+            "Type": "AWS::CloudFront::Distribution",
+            "Properties": {
+                "DistributionConfig": {
+                    "Origins": [
+                        {
+                            "DomainName": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "offcourse-frontend-",
+                                        {
+                                            "Ref": "Stage"
+                                        },
+                                        ".s3-website-eu-west-1.amazonaws.com"
+                                    ]
+                                ]
+                            },
+                            "Id": {
+                                "Ref": "Stage"
+                            },
+                            "CustomOriginConfig": {
+                                "HTTPPort": "80",
+                                "HTTPSPort": "443",
+                                "OriginProtocolPolicy": "http-only"
+                            }
+                        }
+                    ],
+                    "Enabled": "true",
+                    "DefaultRootObject": "index.html",
+                    "DefaultCacheBehavior": {
+                        "TargetOriginId": {
+                            "Ref": "Stage"
+                        },
+                        "SmoothStreaming": "false",
+                        "ForwardedValues": {
+                            "QueryString": "false",
+                            "Cookies": {
+                                "Forward": "all"
+                            }
+                        },
+                        "ViewerProtocolPolicy": "redirect-to-https"
+                    },
+                    "CustomErrorResponses": [
+                        {
+                            "ErrorCode": "404",
+                            "ResponsePagePath": "/index.html",
+                            "ResponseCode": "200",
+                            "ErrorCachingMinTTL": "30"
+                        }
+                    ],
+                    "ViewerCertificate": {
+                        "CloudFrontDefaultCertificate": "true"
+                    }
+                }
+            }
         }
     },
     "Outputs": {
@@ -55,6 +112,15 @@
                 "Fn::GetAtt": [
                     "FrontendBucket",
                     "WebsiteURL"
+                ]
+            }
+        },
+        "CDNUrl": {
+            "Description": "Url of the CDN distribution",
+            "Value": {
+                "Fn::GetAtt": [
+                    "CloudfrontDistribution",
+                    "DomainName"
                 ]
             }
         }
