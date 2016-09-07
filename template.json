@@ -2,16 +2,24 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Parameters": {
         "Stage": {
-            "Type": "String",
+            "Type": "String"
         }
     },
     "Resources": {
         "FrontendBucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
-                "BucketName": { "Fn::Join" :
-            [ "", [ "offcourse-frontend-", {"Ref" : "Stage" } ] ]
-        },
+                "BucketName": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "offcourse-frontend-",
+                            {
+                                "Ref": "Stage"
+                            }
+                        ]
+                    ]
+                },
                 "AccessControl": "PublicRead",
                 "WebsiteConfiguration": {
                     "IndexDocument": "index.html",
@@ -38,13 +46,16 @@
                     "Status": "Enabled"
                 }
             }
-        },
+        }
     },
     "Outputs": {
-        "FrontendBucket": {
+        "WebsiteUrl": {
             "Description": "Name of the frontend bucket",
             "Value": {
-                "Ref": "FrontendBucket"
+                "Fn::GetAtt": [
+                    "FrontendBucket",
+                    "WebsiteURL"
+                ]
             }
         }
     }
