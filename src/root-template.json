@@ -1,0 +1,46 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "",
+    "Parameters": {
+      "StackTemplateUrl": {
+            "Type": "String",
+            "Default": "https://s3-eu-west-1.amazonaws.com/offcourse-web-cf/stack-template.json"
+      }
+    },
+    "Resources": {
+      "devStack": {
+        "Type": "AWS::CloudFormation::Stack",
+        "Properties": {
+          "Parameters": { 
+            "Stage": "dev",
+            "HostedZone": "offcourse.io"
+          },
+          "TemplateURL": { "Ref": "StackTemplateUrl"}
+        }
+      },
+      "devStack": {
+        "Type": "AWS::CloudFormation::Stack",
+        "Properties": {
+          "Parameters": { 
+            "Stage": "staging",
+            "HostedZone": "offcourse.io"
+          },
+          "TemplateURL": { "Ref": "StackTemplateUrl"}
+        }
+      },
+      "productionStack": {
+        "Type": "AWS::CloudFormation::Stack",
+        "Properties": {
+          "Parameters": { 
+            "Stage": "production",
+            "HostedZone": "offcourse.io"
+          },
+          "TemplateURL": { "Ref": "StackTemplateUrl"}
+        }
+      }
+    },
+    "Outputs": {
+
+    }
+}
+    

@@ -9,14 +9,14 @@
         }
     },
     "Resources": {
-        "FrontendBucket": {
+        "WebBucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
                 "BucketName": {
                     "Fn::Join": [
                         "",
                         [
-                            "offcourse-frontend-",
+                            "offcourse-web-",
                             {
                                 "Ref": "Stage"
                             }
@@ -67,7 +67,7 @@
                                 "Fn::Join": [
                                     "",
                                     [
-                                        "offcourse-frontend-",
+                                        "offcourse-web-",
                                         {
                                             "Ref": "Stage"
                                         },
@@ -146,10 +146,10 @@
     },
     "Outputs": {
         "BucketUrl": {
-            "Description": "Url of the frontend bucket",
+            "Description": "Url of the web bucket",
             "Value": {
                 "Fn::GetAtt": [
-                    "FrontendBucket",
+                    "WebBucket",
                     "WebsiteURL"
                 ]
             }
