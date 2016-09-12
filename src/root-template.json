@@ -22,7 +22,7 @@
           "TemplateURL": { "Ref": "StackTemplateUrl"}
         }
       },
-      "devStack": {
+      "stagingStack": {
         "Type": "AWS::CloudFormation::Stack",
         "Properties": {
           "Parameters": { 
