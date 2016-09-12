@@ -3,6 +3,9 @@
     "Parameters": {
         "Stage": {
             "Type": "String"
+        },
+        "HostedZone": {
+            "Type": "String"
         }
     },
     "Resources": {
@@ -51,6 +54,13 @@
             "Type": "AWS::CloudFront::Distribution",
             "Properties": {
                 "DistributionConfig": {
+                    "Aliases" : [ {
+                        "Fn::Join" : [ "", [
+                            {"Ref": "Stage" }, 
+                            ".",
+                            {"Ref" : "HostedZone"}
+                        ]]
+                    } ],
                     "Origins": [
                         {
                             "DomainName": {
@@ -88,7 +98,7 @@
                                 "Forward": "all"
                             }
                         },
-                        "ViewerProtocolPolicy": "redirect-to-https"
+                        "ViewerProtocolPolicy": "allow-all"
                     },
                     "CustomErrorResponses": [
                         {
@@ -103,10 +113,39 @@
                     }
                 }
             }
-        }
+        },
+        "Route53Record" : {
+            "Type" : "AWS::Route53::RecordSet",
+            "Properties" : {
+                "HostedZoneName" : {
+                    "Fn::Join" : [ "", [
+                       { "Ref" : "HostedZone" }, "."
+                    ]]
+                 },
+                 "Comment" : "Cloudformation coupling of Cloudfront with Route53",  
+                 "Name" : {
+                    "Fn::Join" : [ "", [
+                        {"Ref": "Stage" }, 
+                        ".",
+                        {"Ref" : "HostedZone"} ,
+                        "."
+                    ]]
+                 },
+                 "Type" : "CNAME",
+                 "TTL" : "300",
+                 "ResourceRecords" : [
+                    {
+                        "Fn::GetAtt": [
+                            "CloudfrontDistribution",
+                            "DomainName"
+                        ]
+                    }
+                ]
+            }
+        },
     },
     "Outputs": {
-        "WebsiteUrl": {
+        "BucketUrl": {
             "Description": "Name of the frontend bucket",
             "Value": {
                 "Fn::GetAtt": [
@@ -123,6 +162,10 @@
                     "DomainName"
                 ]
             }
+        },
+        "WebsiteUrl": {
+            "Description": "Url of the website",
+            "Value": { "Ref": "Route53Record" }
         }
     }
 }
