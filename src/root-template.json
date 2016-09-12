@@ -3,8 +3,12 @@
     "Description": "",
     "Parameters": {
       "StackTemplateUrl": {
-            "Type": "String",
-            "Default": "https://s3-eu-west-1.amazonaws.com/offcourse-web-cf/stack-template.json"
+        "Type": "String",
+        "Default": "https://s3-eu-west-1.amazonaws.com/offcourse-web-cf/stack-template.json"
+      },
+      "HostedZoneURL": {
+        "Type": "String",
+        "Default": "offcourse.io"
       }
     },
     "Resources": {
@@ -13,7 +17,7 @@
         "Properties": {
           "Parameters": { 
             "Stage": "dev",
-            "HostedZone": "offcourse.io"
+            "HostedZone": { "Ref": "HostedZoneURL"}
           },
           "TemplateURL": { "Ref": "StackTemplateUrl"}
         }
@@ -23,7 +27,7 @@
         "Properties": {
           "Parameters": { 
             "Stage": "staging",
-            "HostedZone": "offcourse.io"
+            "HostedZone": { "Ref": "HostedZoneURL"}
           },
           "TemplateURL": { "Ref": "StackTemplateUrl"}
         }
@@ -33,7 +37,7 @@
         "Properties": {
           "Parameters": { 
             "Stage": "production",
-            "HostedZone": "offcourse.io"
+            "HostedZone": { "Ref": "HostedZoneURL"}
           },
           "TemplateURL": { "Ref": "StackTemplateUrl"}
         }

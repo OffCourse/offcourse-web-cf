@@ -127,7 +127,7 @@
                     "Fn::Join" : [ "", [
                         {"Ref": "Stage" }, 
                         ".",
-                        {"Ref" : "HostedZone"} ,
+                        {"Ref":"HostedZone"} ,
                         "."
                     ]]
                  },
