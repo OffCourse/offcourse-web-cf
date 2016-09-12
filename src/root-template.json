@@ -26,7 +26,7 @@
         "Type": "AWS::CloudFormation::Stack",
         "Properties": {
           "Parameters": { 
-            "Stage": "staging",
+            "Stage": "edge",
             "HostedZone": { "Ref": "HostedZoneURL"}
           },
           "TemplateURL": { "Ref": "StackTemplateUrl"}
@@ -36,7 +36,7 @@
         "Type": "AWS::CloudFormation::Stack",
         "Properties": {
           "Parameters": { 
-            "Stage": "production",
+            "Stage": "platform",
             "HostedZone": { "Ref": "HostedZoneURL"}
           },
           "TemplateURL": { "Ref": "StackTemplateUrl"}
