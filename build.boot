@@ -1,5 +1,5 @@
 (set-env!
- :source-paths    #{"src"}
+ :resource-paths    #{"src"}
  :dependencies '[[hashobject/boot-s3            "0.1.2-SNAPSHOT" :scope "test"]])
 
 (require
