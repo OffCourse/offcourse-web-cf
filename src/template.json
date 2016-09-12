@@ -146,7 +146,7 @@
     },
     "Outputs": {
         "BucketUrl": {
-            "Description": "Name of the frontend bucket",
+            "Description": "Url of the frontend bucket",
             "Value": {
                 "Fn::GetAtt": [
                     "FrontendBucket",
